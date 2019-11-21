@@ -6,7 +6,6 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("Begin Play called from TankPlayerController"));
 	ControlledTank = GetControlledTank();
 	if (!ControlledTank)
 	{
