@@ -15,8 +15,25 @@ class BATTLETANKSASSETS_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
+private:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+	
+	// Cast Pawn to ATank Class 
 	ATank* GetControlledTank() const;
 	ATank* ControlledTank;
-	void BeginPlay() override;
+
+	// Move Barrel towards reticule
+	void AimTowardsReticule();
+	bool GetSightRayHitLocation(FVector& OutHitLoc) const;
+
+	// Reticule Position. If changed also change reticule position in UI 
+	UPROPERTY(EditAnywhere)
+	float ReticuleXLoc = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float ReticuleYLoc = 0.3333f;
+
 };
