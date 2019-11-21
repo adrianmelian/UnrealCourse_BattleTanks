@@ -30,10 +30,19 @@ private:
 	void AimTowardsReticule();
 	bool GetSightRayHitLocation(FVector& OutHitLoc) const;
 
+	// Getting Look direction
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+	// Get vector Hit Location
+	bool GetLookVectorHitDirection(FVector LookDirection, FVector& HitLocation) const;
+
 	// Reticule Position. If changed also change reticule position in UI 
 	UPROPERTY(EditAnywhere)
 	float ReticuleXLoc = 0.5f;
 	UPROPERTY(EditAnywhere)
 	float ReticuleYLoc = 0.3333f;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000;
 
 };
