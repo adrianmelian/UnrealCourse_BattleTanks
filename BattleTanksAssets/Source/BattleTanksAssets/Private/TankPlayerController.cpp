@@ -38,7 +38,7 @@ void ATankPlayerController::AimTowardsReticule()
 	FVector OutHitLocation; // OUT Parameter
 	if (GetSightRayHitLocation(OutHitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit Locaiton: %s"), *OutHitLocation.ToString());
+		GetControlledTank()->AimAt(OutHitLocation);
 	}
 }
 

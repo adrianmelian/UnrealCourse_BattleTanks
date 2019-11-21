@@ -33,6 +33,13 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (GetPlayerTank())
+	{
+		// TODO Move towards
+		// TOSO Anim at player
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		// TODO If in range shoot
+	}
 }
 
 ATank* ATankAIController::GetControlledTank() const
