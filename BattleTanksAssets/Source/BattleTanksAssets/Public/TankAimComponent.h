@@ -7,6 +7,7 @@
 #include "Components/ActorComponent.h"
 #include "TankAimComponent.generated.h"
 
+class UTankBarrel;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKSASSETS_API UTankAimComponent : public UActorComponent
@@ -18,9 +19,9 @@ public:
 	UTankAimComponent();
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 private:
-	UStaticMeshComponent* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;
 	void AimBarrelAt(FVector AimDirection);
 };
