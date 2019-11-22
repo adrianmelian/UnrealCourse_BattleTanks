@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 #include "tankBarrel.h"
 #include "TankAimComponent.h"
 
@@ -17,17 +18,22 @@ UTankAimComponent::UTankAimComponent()
 void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) { return; }
-
 	FVector OutTossVelocity;
 	FVector BarrelLoc = Barrel->GetSocketLocation(FName("Projectile") );
 	TArray< AActor* > actorsToSkip;
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutTossVelocity, BarrelLoc, HitLocation, LaunchSpeed);
 	if (bHaveAimSolution)
 	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution found!"), Time);
 		FVector LaunchNormal = OutTossVelocity.GetSafeNormal();
 		AimBarrelAt(LaunchNormal);
 	}
-	//UE_LOG(LogTemp, Warning, TEXT("iming at %s./n/tlocated: %s Firing At: %f"), *HitLocation.ToString(), *BarrelLoc.ToString(), LaunchSpeed);
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution not found"), Time);
+	}
 }
 
 void UTankAimComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
@@ -42,9 +48,9 @@ void UTankAimComponent::AimBarrelAt(FVector AimDirection)
 	auto CurrentBarrelRot = Barrel->GetForwardVector().Rotation();
 	auto AimToRot = AimDirection.Rotation();
 	auto DeltaRot = AimToRot - CurrentBarrelRot;
-	// UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *AimToRot.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *AimToRot.ToString());
 
-	//Barrel->Elevate(5.f);
+	Barrel->Elevate(5.f);
 }
 
 

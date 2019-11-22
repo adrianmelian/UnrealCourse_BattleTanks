@@ -12,7 +12,7 @@ class BATTLETANKSASSETS_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
-	void Elevate(float DegreesPerSecond);
+	void Elevate(float ElevateSpeed); //Elevate speed: -1 is down, +1 is up
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
