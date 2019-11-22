@@ -21,7 +21,7 @@ void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector OutTossVelocity;
 	FVector BarrelLoc = Barrel->GetSocketLocation(FName("Projectile") );
 	TArray< AActor* > actorsToSkip;
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutTossVelocity, BarrelLoc, HitLocation, LaunchSpeed);
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutTossVelocity, BarrelLoc, HitLocation, LaunchSpeed, 0, 0, ESuggestProjVelocityTraceOption::TraceFullPath);
 	if (bHaveAimSolution)
 	{
 		auto Time = GetWorld()->GetTimeSeconds();

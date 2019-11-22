@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TankAimComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+class UTankAimComponent;
 class UTankBarrel;
 
 UCLASS()
