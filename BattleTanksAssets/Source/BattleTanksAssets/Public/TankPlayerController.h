@@ -40,9 +40,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float ReticuleXLoc = 0.5f;
 	UPROPERTY(EditAnywhere)
-	float ReticuleYLoc = 0.3333f;
+	float ReticuleYLoc = 0.35f;
 
 	UPROPERTY(EditAnywhere)
-	float LineTraceRange = 1000000;
+	float LineTraceRange = 100000000.f;
 
 };

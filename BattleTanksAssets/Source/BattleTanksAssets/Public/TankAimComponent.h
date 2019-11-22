@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/StaticMeshComponent.h"
 #include "Components/ActorComponent.h"
 #include "TankAimComponent.generated.h"
 
@@ -12,18 +13,14 @@ class BATTLETANKSASSETS_API UTankAimComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UTankAimComponent();
 
-public:	
-	// Called when the game starts
-	virtual void BeginPlay() override;
-	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
-public:
-	void AimAt(FVector HitLocation);
-
+private:
+	UStaticMeshComponent* Barrel = nullptr;
+	void AimBarrelAt(FVector AimDirection);
 };
