@@ -34,6 +34,11 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet)
 	TankAimComponent->SetTurretReference(TurretToSet);
 }
 
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fire being called"));
+}
+
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimComponent->AimAt(HitLocation, LaunchSpeed);

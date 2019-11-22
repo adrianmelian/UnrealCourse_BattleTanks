@@ -35,10 +35,12 @@ private:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Fire)
+	void Fire();
 public:
 	void AimAt(FVector HitLocation);
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 10000000; // TODO Find good default value
+	float LaunchSpeed = 4000; // TODO Find good default value
 
 };

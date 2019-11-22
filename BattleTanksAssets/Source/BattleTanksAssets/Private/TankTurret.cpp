@@ -5,10 +5,9 @@
 
 void UTankTurret::RotateY(float RotateSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("RotateY being called"));
+	//UE_LOG(LogTemp, Warning, TEXT("RotateY being called"));
 	RotateSpeed = FMath::Clamp<float>(RotateSpeed, -1.f, 1.f); // In case ElevateSpeed > 1 or < -1
 	float RotateChange = (RotateSpeed * MaxDegreesPerSecond) * GetWorld()->DeltaTimeSeconds;
-	float RawNewRotate = RelativeRotation.Yaw + RotateChange;
-	//float ClampedElevation = FMath::Clamp<float>(RawNewElevation, MinHeightDegrees, MaxHeightDegrees); // in case ElevateSpeed > 1 or < -1
-	SetRelativeRotation(FRotator(0, RawNewRotate, 0));
+	float Rotation = RelativeRotation.Yaw + RotateChange;
+	SetRelativeRotation(FRotator(0, Rotation, 0));
 }
