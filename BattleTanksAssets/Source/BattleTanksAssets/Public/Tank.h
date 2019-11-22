@@ -8,6 +8,7 @@
 
 class UTankAimComponent;
 class UTankBarrel;
+class UTankTurret;
 
 UCLASS()
 class BATTLETANKSASSETS_API ATank : public APawn
@@ -30,11 +31,12 @@ private:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
 
 public:
 	void AimAt(FVector HitLocation);
-
-	UStaticMeshComponent* Barrel = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 10000000; // TODO Find good default value

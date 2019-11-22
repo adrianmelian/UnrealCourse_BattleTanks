@@ -2,7 +2,8 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
-#include "tankBarrel.h"
+#include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimComponent.h"
 
 // Sets default values for this component's properties
@@ -18,27 +19,33 @@ UTankAimComponent::UTankAimComponent()
 void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) { return; }
+	if (!Turret) { return; }
+
 	FVector OutTossVelocity;
 	FVector BarrelLoc = Barrel->GetSocketLocation(FName("Projectile") );
-	TArray< AActor* > actorsToSkip;
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutTossVelocity, BarrelLoc, HitLocation, LaunchSpeed, 0, 0, ESuggestProjVelocityTraceOption::TraceFullPath);
 	if (bHaveAimSolution)
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution found!"), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution found!"), Time);
 		FVector LaunchNormal = OutTossVelocity.GetSafeNormal();
 		AimBarrelAt(LaunchNormal);
 	}
 	else
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution not found"), Time);
+		//UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution not found"), Time);
 	}
 }
 
 void UTankAimComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
 }
 
 void UTankAimComponent::AimBarrelAt(FVector AimDirection)
@@ -51,6 +58,7 @@ void UTankAimComponent::AimBarrelAt(FVector AimDirection)
 	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *AimToRot.ToString());
 
 	Barrel->Elevate(DeltaRot.Pitch);
+	Turret->RotateY(DeltaRot.Yaw);
 }
 
 
