@@ -50,7 +50,7 @@ void UTankAimComponent::AimBarrelAt(FVector AimDirection)
 	auto DeltaRot = AimToRot - CurrentBarrelRot;
 	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *AimToRot.ToString());
 
-	Barrel->Elevate(5.f);
+	Barrel->Elevate(DeltaRot.Pitch);
 }
 
 
