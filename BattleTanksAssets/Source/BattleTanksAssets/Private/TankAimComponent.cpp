@@ -23,18 +23,27 @@ void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	FVector OutTossVelocity;
 	FVector BarrelLoc = Barrel->GetSocketLocation(FName("Projectile") );
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutTossVelocity, BarrelLoc, HitLocation, LaunchSpeed, 0, 0, ESuggestProjVelocityTraceOption::TraceFullPath);
+	//bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutTossVelocity, BarrelLoc, HitLocation, LaunchSpeed); // This caused very weird behaviour which below fixed
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OutTossVelocity,
+		BarrelLoc,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0.f,
+		0.f,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(),
+		false
+	);
 	if (bHaveAimSolution)
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution found!"), Time);
+		UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution found!"), Time);
 		FVector LaunchNormal = OutTossVelocity.GetSafeNormal();
 		AimBarrelAt(LaunchNormal);
-	}
-	else
-	{
-		auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution not found"), Time);
 	}
 }
 
