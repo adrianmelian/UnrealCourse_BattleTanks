@@ -40,8 +40,6 @@ void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	);
 	if (bHaveAimSolution)
 	{
-		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f: aiming solution found!"), Time);
 		FVector LaunchNormal = OutTossVelocity.GetSafeNormal();
 		AimBarrelAt(LaunchNormal);
 	}
