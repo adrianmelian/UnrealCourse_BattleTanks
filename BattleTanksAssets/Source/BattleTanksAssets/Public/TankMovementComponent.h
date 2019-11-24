@@ -25,9 +25,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendTurnRight(float TurnAmount);	
-	
-	UFUNCTION(BlueprintCallable, Category = Input)
-	void IntendTurnLeft(float TurnAmount);
 
 private:
 	UTankTrack* LTrack = nullptr;
