@@ -9,9 +9,11 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANKSASSETS_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	void IntendMoveForward(float Throw);
 };

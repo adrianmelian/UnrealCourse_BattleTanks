@@ -21,5 +21,5 @@ public:
 	
 	// Max Force to Track in Newtons
 	UPROPERTY(EditDefaultsOnly, Category = Driving)
-	float MaxAcceleration = 400000.f;
+	float MaxAcceleration = 40000000.f;
 };

@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+class UTankMovementComponent;
 class UTankAimComponent;
 class UTankBarrel;
 class UTankTurret;
@@ -22,6 +23,7 @@ public:
 
 protected:
 	UTankAimComponent* TankAimComponent = nullptr;
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:	
 	// Called when the game starts or when spawned
