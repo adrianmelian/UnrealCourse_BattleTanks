@@ -20,6 +20,6 @@ public:
 	void SetThrottle(float Throttle); 
 	
 	// Max Force to Track in Newtons
-	UPROPERTY(EditDefaultsOnly, Category = Driving)
+	UPROPERTY(EditDefaultsOnly, Category = "Driving")
 	float MaxAcceleration = 40000000.f;
 };

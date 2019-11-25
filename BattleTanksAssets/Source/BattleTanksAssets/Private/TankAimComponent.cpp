@@ -67,5 +67,3 @@ void UTankAimComponent::AimBarrelAt(FVector AimDirection)
 	Barrel->Elevate(DeltaRot.Pitch);
 	Turret->RotateY(DeltaRot.Yaw);
 }
-
-

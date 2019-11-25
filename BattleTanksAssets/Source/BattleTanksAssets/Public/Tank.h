@@ -22,6 +22,7 @@ public:
 	ATank();
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimComponent* TankAimComponent = nullptr;
 	
 	UPROPERTY(BlueprintReadOnly)
@@ -48,15 +49,15 @@ private:
 
 	double LastFireTime = 0;
 public:
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTime = 2.5;
 
-	UFUNCTION(BlueprintCallable, Category = Fire)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 	
 	void AimAt(FVector HitLocation);
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000; // TODO Find good default value
 
 };

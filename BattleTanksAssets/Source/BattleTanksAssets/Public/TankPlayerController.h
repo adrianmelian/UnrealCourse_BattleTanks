@@ -20,10 +20,6 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
-	// Cast Pawn to ATank Class 
-	ATank* GetControlledTank() const;
-	ATank* ControlledTank;
-
 	// Move Barrel towards reticule
 	void AimTowardsReticule();
 	bool GetSightRayHitLocation(FVector& OutHitLoc) const;
@@ -42,5 +38,11 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 100000000.f;
+
+protected:
+	// Cast Pawn to ATank Class 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
+	ATank* ControlledTank;
 
 };
