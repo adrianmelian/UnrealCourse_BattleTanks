@@ -7,6 +7,7 @@
 #include "TankPlayerController.generated.h"
 
 class ATank;
+class UTankAimComponent;
 
 UCLASS()
 class BATTLETANKSASSETS_API ATankPlayerController : public APlayerController
@@ -40,9 +41,13 @@ private:
 	float LineTraceRange = 100000000.f;
 
 protected:
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimComponent* AimComponentRef);
+	
 	// Cast Pawn to ATank Class 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+	
 	ATank* ControlledTank;
 
 };
