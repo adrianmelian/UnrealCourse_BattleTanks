@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Tank.h"
 #include "Engine/World.h"
 #include "TankAimComponent.h"
 #include "CollisionQueryParams.h"
@@ -11,7 +10,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimCompRef = GetControlledTank()->FindComponentByClass<UTankAimComponent>();
+	auto AimCompRef = GetPawn()->FindComponentByClass<UTankAimComponent>();
 	if (!ensure(AimCompRef)) { return; }
 	FoundAimingComponent(AimCompRef);
 }
@@ -23,18 +22,14 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimTowardsReticule();
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimTowardsReticule()
 {
-	if (!ensure(GetControlledTank())) { return; }
+	auto AimCompRef = GetPawn()->FindComponentByClass<UTankAimComponent>();
+	if (!ensure(AimCompRef)) { return; }
 	FVector OutHitLocation; // OUT Parameter
 	if (GetSightRayHitLocation(OutHitLocation))
 	{
-		GetControlledTank()->AimAt(OutHitLocation);
+		AimCompRef->AimAt(OutHitLocation);
 	}
 }
 
