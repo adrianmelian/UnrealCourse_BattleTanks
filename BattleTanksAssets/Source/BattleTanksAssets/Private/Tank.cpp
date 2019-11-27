@@ -12,21 +12,4 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void ATank::Fire()
-{
-	if (!ensure(Barrel)) { return; }
-	bool isLoaded((FPlatformTime::Seconds() - LastFireTime) > ReloadTime);
-	if (isLoaded) 
-	{  
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBP, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-		Projectile->Launch(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
-	}
-}
 
