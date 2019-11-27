@@ -13,16 +13,16 @@ void UTankMovementComponent::Initialize(UTankTrack* LTrackToSet, UTankTrack* RTr
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!ensure(LTrack || RTrack)) { return; }
+	if (!ensure(LTrack) || !ensure(RTrack)) { return; }
 	LTrack->SetThrottle(Throw);
 	RTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurnRight(float TurnAmount)
 {
-	if (!ensure(LTrack || RTrack)) { return; }
-	LTrack->SetThrottle(TurnAmount);
-	RTrack->SetThrottle(-TurnAmount);
+	if (!ensure(LTrack) || !ensure(RTrack)) { return; }
+	LTrack->SetThrottle(-TurnAmount);
+	RTrack->SetThrottle(TurnAmount);
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
