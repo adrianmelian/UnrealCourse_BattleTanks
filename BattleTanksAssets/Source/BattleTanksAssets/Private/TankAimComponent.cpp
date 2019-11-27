@@ -22,7 +22,7 @@ void UTankAimComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Turret
 	Turret = TurretToSet;
 }
 
-void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel && Turret)) { return; }
 
@@ -45,6 +45,7 @@ void UTankAimComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	);
 	if (bHaveAimSolution)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Aiming barrel at!"));
 		FVector LaunchNormal = OutTossVelocity.GetSafeNormal();
 		AimBarrelAt(LaunchNormal);
 	}

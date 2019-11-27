@@ -6,7 +6,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
 class UTankAimComponent;
 
 UCLASS()
@@ -42,12 +41,6 @@ private:
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-		void FoundAimingComponent(UTankAimComponent* AimComponentRef);
-	
-	// Cast Pawn to ATank Class 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-	
-	ATank* ControlledTank;
+	void FoundAimingComponent(UTankAimComponent* AimComponentRef);
 
 };
