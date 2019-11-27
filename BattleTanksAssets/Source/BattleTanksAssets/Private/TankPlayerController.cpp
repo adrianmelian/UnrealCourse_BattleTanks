@@ -12,14 +12,8 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	auto AimCompRef = GetControlledTank()->FindComponentByClass<UTankAimComponent>();
-	if (AimCompRef) 
-	{
-		FoundAimingComponent(AimCompRef);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Controller cannot fiind Aiming Component"));
-	}
+	if (!ensure(AimCompRef)) { return; }
+	FoundAimingComponent(AimCompRef);
 }
 
 // Called every frame
@@ -37,7 +31,6 @@ ATank* ATankPlayerController::GetControlledTank() const
 void ATankPlayerController::AimTowardsReticule()
 {
 	if (!ensure(GetControlledTank())) { return; }
-
 	FVector OutHitLocation; // OUT Parameter
 	if (GetSightRayHitLocation(OutHitLocation))
 	{

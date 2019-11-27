@@ -6,7 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankMovementComponent;
 class UTankAimComponent;
 class UTankBarrel;
 class UTankTurret;
@@ -24,9 +23,6 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimComponent* TankAimComponent = nullptr;
-	
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:	
 	// Called when the game starts or when spawned
