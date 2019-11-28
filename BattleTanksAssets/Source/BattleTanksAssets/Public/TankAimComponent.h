@@ -17,6 +17,7 @@ enum class EFiringStatus : uint8
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKSASSETS_API UTankAimComponent : public UActorComponent
@@ -44,4 +45,18 @@ private:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+
+	//From Tank
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBP = nullptr;
+
+	double LastFireTime = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadTime = 2.5;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
+
 };
