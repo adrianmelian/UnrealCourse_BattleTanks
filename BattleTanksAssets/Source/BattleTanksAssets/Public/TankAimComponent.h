@@ -28,19 +28,16 @@ public:
 	// Sets default values for this component's properties
 	UTankAimComponent();
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+	virtual void BeginPlay() override;
 
-	void AimAt(FVector HitLocation);
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UTankBarrel* Barrel = nullptr;
-	UTankTurret* Turret = nullptr;
 
 	void AimBarrelAt(FVector AimDirection);
+
+	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -48,15 +45,22 @@ protected:
 
 	//From Tank
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<AProjectile> ProjectileBP = nullptr;
-
-	double LastFireTime = 0;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadTime = 2.5;
+	void AimAt(FVector HitLocation);
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	double LastFireTime = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 4000;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBP = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadTime = 2.5;
 };
