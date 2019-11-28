@@ -18,6 +18,8 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+protected:
 	// How close the ai tank can get to player
-	float AccecptanceRadius = 1000.f;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float AccecptanceRadius = 0.f;
 };

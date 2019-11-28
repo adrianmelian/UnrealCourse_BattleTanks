@@ -33,7 +33,6 @@ public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-
 	void AimBarrelAt();
 
 	UTankBarrel* Barrel = nullptr;
@@ -48,6 +47,8 @@ protected:
 	bool BarrelIsMoving();
 
 public:
+	EFiringStatus GetFiringStatus() const;
+
 	void AimAt(FVector HitLocation);
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
