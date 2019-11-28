@@ -24,6 +24,8 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsReticule()
 {
+	if (!GetPawn()) { return; } // If not possessing
+
 	auto AimCompRef = GetPawn()->FindComponentByClass<UTankAimComponent>();
 	if (!ensure(AimCompRef)) { return; }
 
