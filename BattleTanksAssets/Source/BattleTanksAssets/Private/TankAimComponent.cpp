@@ -30,7 +30,15 @@ void UTankAimComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Turret
 
 void UTankAimComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	if (GetWorld()->GetTimeSeconds() - LastFireTime > ReloadTime)
+	if (GetWorld()->GetTimeSeconds() - LastFireTime < ReloadTime)
+	{
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if (BarrelIsMoving())
+	{
+		FiringStatus = EFiringStatus::Aiming;
+	}
+	else
 	{
 		FiringStatus = EFiringStatus::Ready;
 	}
@@ -59,12 +67,12 @@ void UTankAimComponent::AimAt(FVector HitLocation)
 	);
 	if (bHaveAimSolution)
 	{
-		FVector LaunchNormal = OutTossVelocity.GetSafeNormal();
-		AimBarrelAt(LaunchNormal);
+		AimDirection = OutTossVelocity.GetSafeNormal();
+		AimBarrelAt();
 	}
 }
 
-void UTankAimComponent::AimBarrelAt(FVector AimDirection)
+void UTankAimComponent::AimBarrelAt()
 {
 	if (!ensure(Barrel && Turret)) { return; }
 	// Get current rotation of barrel
@@ -72,21 +80,27 @@ void UTankAimComponent::AimBarrelAt(FVector AimDirection)
 	auto CurrentBarrelRot = Barrel->GetForwardVector().Rotation();
 	auto AimToRot = AimDirection.Rotation();
 	auto DeltaRot = AimToRot - CurrentBarrelRot;
-	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *AimToRot.ToString());
 
 	Barrel->Elevate(DeltaRot.Pitch);
 	Turret->RotateY(DeltaRot.Yaw);
 }
 
+bool UTankAimComponent::BarrelIsMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection, 0.01); // If vectors are equal withing tolerance
+}
+
 void UTankAimComponent::Fire()
 {
-	bool isLoaded((FPlatformTime::Seconds() - LastFireTime) > ReloadTime);
+	bool isLoaded((GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTime);
 	if (FiringStatus != EFiringStatus::Reloading)
 	{
 		if (!ensure(ProjectileBP)) { return; }
 		if (!ensure(Barrel)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBP, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->Launch(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
+		LastFireTime = GetWorld()->GetTimeSeconds();
 	}
 }

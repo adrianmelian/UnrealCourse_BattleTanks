@@ -34,16 +34,19 @@ public:
 
 private:
 
-	void AimBarrelAt(FVector AimDirection);
+	void AimBarrelAt();
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
-	//From Tank
+	FVector AimDirection;
+
+	bool BarrelIsMoving();
+
 public:
 	void AimAt(FVector HitLocation);
 	
