@@ -29,8 +29,12 @@ void UTankAimComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Turret
 }
 
 void UTankAimComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	if (GetWorld()->GetTimeSeconds() - LastFireTime < ReloadTime)
+{	
+	if (RemainingAmmo <= 0)
+	{
+		FiringStatus = EFiringStatus::Empty;
+	}
+	else if (GetWorld()->GetTimeSeconds() - LastFireTime < ReloadTime)
 	{
 		FiringStatus = EFiringStatus::Reloading;
 	}
@@ -47,6 +51,13 @@ void UTankAimComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 EFiringStatus UTankAimComponent::GetFiringStatus() const
 {
 	return FiringStatus;
+}
+
+bool UTankAimComponent::BarrelIsMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection, 0.01); // If vectors are equal withing tolerance
 }
 
 void UTankAimComponent::AimAt(FVector HitLocation)
@@ -93,22 +104,16 @@ void UTankAimComponent::AimBarrelAt()
 	Turret->RotateY(DeltaYaw);
 }
 
-bool UTankAimComponent::BarrelIsMoving()
-{
-	if (!ensure(Barrel)) { return false; }
-	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01); // If vectors are equal withing tolerance
-}
-
 void UTankAimComponent::Fire()
 {
 	bool isLoaded((GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTime);
-	if (FiringStatus != EFiringStatus::Reloading)
+	if (FiringStatus != EFiringStatus::Reloading && RemainingAmmo > 0)
 	{
 		if (!ensure(ProjectileBP)) { return; }
 		if (!ensure(Barrel)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBP, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->Launch(LaunchSpeed);
 		LastFireTime = GetWorld()->GetTimeSeconds();
+		RemainingAmmo--;
 	}
 }
