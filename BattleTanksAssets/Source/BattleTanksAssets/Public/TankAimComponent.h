@@ -42,9 +42,6 @@ private:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "State")
-	int RemainingAmmo = 3;
 
 	FVector AimDirection;
 
@@ -71,4 +68,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTime = 2.5;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "State")
+	int32 RemainingAmmo = 30;
 };
