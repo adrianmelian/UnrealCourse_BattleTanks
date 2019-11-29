@@ -107,7 +107,7 @@ void UTankAimComponent::AimBarrelAt()
 void UTankAimComponent::Fire()
 {
 	bool isLoaded((GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTime);
-	if (FiringStatus != EFiringStatus::Reloading && RemainingAmmo > 0)
+	if (FiringStatus == EFiringStatus::Aiming || FiringStatus == EFiringStatus::Ready)
 	{
 		if (!ensure(ProjectileBP)) { return; }
 		if (!ensure(Barrel)) { return; }
