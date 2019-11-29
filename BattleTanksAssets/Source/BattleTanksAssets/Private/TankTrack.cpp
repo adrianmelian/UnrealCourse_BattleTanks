@@ -6,8 +6,6 @@
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	
-		//( FComponentHitSignature, UPrimitiveComponent, OnComponentHit, UPrimitiveComponent*, HitComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, FVector, NormalImpulse, const FHitResult&, Hit );
 }
 
 void UTankTrack::BeginPlay()

@@ -16,12 +16,14 @@ class BATTLETANKSASSETS_API AProjectile : public AActor
 public:	
 	AProjectile();
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 public:
 	void Launch(float Speed);
 
 private:
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	
 	UProjectileMovementComponent* ProjectileMoveComponent = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -29,4 +31,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* LaunchBlast = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* ImpactBlast = nullptr;
 };

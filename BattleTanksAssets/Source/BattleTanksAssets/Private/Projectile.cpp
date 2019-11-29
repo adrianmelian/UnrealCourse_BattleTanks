@@ -2,6 +2,7 @@
 
 
 #include "Projectile.h"
+#include "Components/PrimitiveComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -9,7 +10,7 @@
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
 	SetRootComponent(CollisionMesh);
@@ -22,25 +23,31 @@ AProjectile::AProjectile()
 	// Adding required Aiming Component
 	ProjectileMoveComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Move Component"));
 	ProjectileMoveComponent->bAutoActivate = false;
+	
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Immpact Blast Particles"));
+	//ImpactBlast->AttachTo(RootComponent);
+	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void AProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
 void AProjectile::Launch(float Speed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Speed: %f"), Speed);
+	
 	ProjectileMoveComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMoveComponent->Activate();
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("I Farted!!!"));
+	ImpactBlast->Activate();
+	LaunchBlast->Deactivate();
+	CollisionMesh->destro();
 }
