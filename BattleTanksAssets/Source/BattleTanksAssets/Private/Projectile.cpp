@@ -2,6 +2,7 @@
 
 
 #include "Projectile.h"
+#include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -28,6 +29,9 @@ AProjectile::AProjectile()
 	//ImpactBlast->AttachTo(RootComponent);
 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -46,8 +50,10 @@ void AProjectile::Launch(float Speed)
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("I Farted!!!"));
 	ImpactBlast->Activate();
 	LaunchBlast->Deactivate();
-	CollisionMesh->destro();
+	ExplosionForce->FireImpulse();
+	//CollisionMesh->SetSimulatePhysics(true);
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent(true);
 }
