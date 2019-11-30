@@ -27,8 +27,12 @@ private:
 
 	void OnTimerExpired();
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float DestroyDelay = 2;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 10;
+
 	UProjectileMovementComponent* ProjectileMoveComponent = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")

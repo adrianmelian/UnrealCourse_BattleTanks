@@ -5,6 +5,8 @@
 #include "TimerManager.h"
 #include "Engine/World.h"
 #include "Engine/EngineTypes.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -52,18 +54,20 @@ void AProjectile::Launch(float Speed)
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	ImpactBlast->Activate();
-	LaunchBlast->Deactivate();
-	ExplosionForce->FireImpulse();
+	ImpactBlast->Activate(); // Turn on hit explosion
+	LaunchBlast->Deactivate(); // Turn off trailing smoke
+	ExplosionForce->FireImpulse(); // Apply force to hit actor
 
-	CollisionMesh->SetSimulatePhysics(true);
-	//SetRootComponent(ImpactBlast);
+	UGameplayStatics::ApplyRadialDamage(this, ProjectileDamage, GetActorLocation(), ExplosionForce->Radius, TSubclassOf<UDamageType>(), TArray<AActor*>());
+
+	CollisionMesh->SetSimulatePhysics(true); // <- To have rolling cannon ball after hit
+	
+	// Uncomment if you want the Projectile to disappear after hit
+	//SetRootComponent(ImpactBlast); 
 	//CollisionMesh->DestroyComponent(true);
 
 	FTimerHandle Timer;
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpired, DestroyDelay, false);
-	
-	//GetWorld()->GetTimerManager().SetTimer(Timer, this, );
 }
 
 void AProjectile::OnTimerExpired()
