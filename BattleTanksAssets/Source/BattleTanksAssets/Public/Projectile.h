@@ -24,6 +24,10 @@ public:
 private:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	void OnTimerExpired();
+
+	float DestroyDelay = 2;
 	
 	UProjectileMovementComponent* ProjectileMoveComponent = nullptr;
 	

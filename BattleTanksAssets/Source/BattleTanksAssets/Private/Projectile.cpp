@@ -2,7 +2,9 @@
 
 
 #include "Projectile.h"
+#include "TimerManager.h"
 #include "Engine/World.h"
+#include "Engine/EngineTypes.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -53,7 +55,18 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	ImpactBlast->Activate();
 	LaunchBlast->Deactivate();
 	ExplosionForce->FireImpulse();
-	//CollisionMesh->SetSimulatePhysics(true);
-	SetRootComponent(ImpactBlast);
-	CollisionMesh->DestroyComponent(true);
+
+	CollisionMesh->SetSimulatePhysics(true);
+	//SetRootComponent(ImpactBlast);
+	//CollisionMesh->DestroyComponent(true);
+
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpired, DestroyDelay, false);
+	
+	//GetWorld()->GetTimerManager().SetTimer(Timer, this, );
+}
+
+void AProjectile::OnTimerExpired()
+{
+	Destroy();
 }
