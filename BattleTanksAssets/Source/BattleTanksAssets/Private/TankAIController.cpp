@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Tank.h"
 #include "Engine/World.h"
 #include "TankPlayerController.h"
+#include "GameFramework/Pawn.h"
 #include "TankAimComponent.h"
 #include "TankAIController.h"
 
@@ -9,6 +11,24 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+	}
+}
+
+void ATankAIController::OnPossessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AI Ams Dyied"));
+	PossessedTank->DetachFromControllerPendingDestroy();
+}
+
 
 // Called every frame
 void ATankAIController::Tick(float DeltaTime)
@@ -35,3 +55,4 @@ void ATankAIController::Tick(float DeltaTime)
 	}
 
 }
+

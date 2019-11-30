@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class AProjectile;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class BATTLETANKSASSETS_API ATank : public APawn
@@ -14,8 +14,10 @@ class BATTLETANKSASSETS_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	ATank();
+	virtual void BeginPlay() override;
+
+	FTankDelegate OnDeath;
 
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHeathPercent();

@@ -16,6 +16,8 @@ class BATTLETANKSASSETS_API ATankPlayerController : public APlayerController
 private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void SetPawn(APawn* InPawn) override;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -38,6 +40,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 100000000.f;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
